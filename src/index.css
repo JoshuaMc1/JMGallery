@@ -1,0 +1,183 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-berkeley-blue {
+  background-color: #13315cff;
+}
+
+.bg-yale-blue {
+  background-color: #134074ff;
+}
+
+.min-h-75vh {
+  min-height: 75vh;
+}
+
+.h-75vh {
+  height: 75vh;
+}
+
+.mh-500 {
+  max-height: 500px;
+}
+
+.h-login {
+  height: 35rem;
+}
+
+.blur-effect {
+  position: relative;
+  overflow: hidden;
+  filter: blur(0px);
+  -webkit-filter: blur(0px);
+  transition: 0.2s filter linear;
+  -webkit-transition: 0.2s -webkit-filter linear;
+  -moz-transition: 0.2s -moz-filter linear;
+  -ms-transition: 0.2s -ms-filter linear;
+  -o-transition: 0.2s -o-filter linear;
+}
+
+.blur-effect:hover {
+  filter: blur(0px);
+  -webkit-filter: blur(0px);
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+/* Ponemos un color de fondo y redondeamos las esquinas del thumb */
+*::-webkit-scrollbar-thumb {
+  background: #738eaa;
+  border-radius: 4px;
+}
+
+/* Cambiamos el fondo y agregamos una sombra cuando esté en hover */
+*::-webkit-scrollbar-thumb:hover {
+  background: #2d4054;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Cambiamos el fondo cuando esté en active */
+*::-webkit-scrollbar-thumb:active {
+  background-color: #495057;
+}
+
+/* Ponemos un color de fondo y redondeamos las esquinas del track */
+*::-webkit-scrollbar-track {
+  background: #e1e1e1;
+}
+
+/* Cambiamos el fondo cuando esté en active o hover */
+*::-webkit-scrollbar-track:hover,
+*::-webkit-scrollbar-track:active {
+  background: #d4d4d4;
+}
+
+.sk-chase {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  animation: sk-chase 2.5s infinite linear both;
+}
+
+.sk-chase-dot {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: sk-chase-dot 2.0s infinite ease-in-out both;
+}
+
+.sk-chase-dot:before {
+  content: '';
+  display: block;
+  width: 25%;
+  height: 25%;
+  background-color: #fff;
+  border-radius: 100%;
+  animation: sk-chase-dot-before 2.0s infinite ease-in-out both;
+}
+
+.sk-chase-dot:nth-child(1) {
+  animation-delay: -1.1s;
+}
+
+.sk-chase-dot:nth-child(2) {
+  animation-delay: -1.0s;
+}
+
+.sk-chase-dot:nth-child(3) {
+  animation-delay: -0.9s;
+}
+
+.sk-chase-dot:nth-child(4) {
+  animation-delay: -0.8s;
+}
+
+.sk-chase-dot:nth-child(5) {
+  animation-delay: -0.7s;
+}
+
+.sk-chase-dot:nth-child(6) {
+  animation-delay: -0.6s;
+}
+
+.sk-chase-dot:nth-child(1):before {
+  animation-delay: -1.1s;
+}
+
+.sk-chase-dot:nth-child(2):before {
+  animation-delay: -1.0s;
+}
+
+.sk-chase-dot:nth-child(3):before {
+  animation-delay: -0.9s;
+}
+
+.sk-chase-dot:nth-child(4):before {
+  animation-delay: -0.8s;
+}
+
+.sk-chase-dot:nth-child(5):before {
+  animation-delay: -0.7s;
+}
+
+.sk-chase-dot:nth-child(6):before {
+  animation-delay: -0.6s;
+}
+
+.description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 14;
+  overflow: hidden;
+}
+
+@keyframes sk-chase {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sk-chase-dot {
+
+  80%,
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sk-chase-dot-before {
+  50% {
+    transform: scale(0.4);
+  }
+
+  100%,
+  0% {
+    transform: scale(1.0);
+  }
+}
