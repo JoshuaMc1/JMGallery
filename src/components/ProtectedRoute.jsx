@@ -25,10 +25,14 @@ const useAuth = (redirectTo = "/") => {
     } catch (error) {
       console.error(error);
     }
-  }, [token]);
+  }, [token, navigate, redirectTo]);
 
   useEffect(() => {
-    verifyToken();
+    let timer = setTimeout(() => {
+      verifyToken();
+    }, 300);
+
+    return () => clearTimeout(timer);
   }, [verifyToken]);
 
   return [loading, authenticated];
@@ -37,17 +41,19 @@ const useAuth = (redirectTo = "/") => {
 const ProtectedRoute = ({ children, redirectTo = "/login" }) => {
   const [loading, authenticated] = useAuth(redirectTo);
 
-  return loading ? (
-    <Spinner text="Cargando..." />
-  ) : authenticated ? (
-    children ? (
-      children
-    ) : (
-      <Outlet />
-    )
-  ) : (
-    <Navigate to={redirectTo} />
-  );
+  if (loading) {
+    return (
+      <div className="h-75vh">
+        <Spinner text="Cargando..." />
+      </div>
+    );
+  }
+
+  if (!authenticated) {
+    return <Navigate to={redirectTo} />;
+  }
+
+  return children ? children : <Outlet />;
 };
 
 export default ProtectedRoute;

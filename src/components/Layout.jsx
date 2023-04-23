@@ -7,7 +7,7 @@ const Layout = ({ addToken, token, userData, setLoad, verified }) => {
   return (
     <>
       <NavBar2 isLogin={!!token} userData={userData} />
-      <main className="container h-full my-6 ">
+      <main className="container h-full my-6 px-2 ">
         <AccountVerified
           isLogged={!!token}
           verified={verified}
