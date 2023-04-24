@@ -1,22 +1,18 @@
+import { useEffect, useState } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
   redirect,
 } from "react-router-dom";
 import GalleryPage from "./pages/GalleryPage";
-import Layout from "./components/Layout";
-import ProtectedRoute from "./components/ProtectedRoute";
 import Login, { action as loginAction } from "./pages/Login";
 import Register, { action as registerAction } from "./pages/Register";
-import ErrorPage from "./pages/ErrorPage";
 import ForgotPassword, { action as forgotAction } from "./pages/ForgotPassword";
+import ErrorPage from "./pages/ErrorPage";
 import ChangePassword, {
   action as changeAction,
   loader as changeLoader,
 } from "./pages/ChangePassword";
-import { useEffect, useState } from "react";
-import { logout, user } from "./models/userModel";
-import RedirectIfLoggedIn from "./components/RedirectIfLoggedIn";
 import NewPost, {
   action as newPostAction,
   loader as newPostLoader,
@@ -27,6 +23,12 @@ import MyPosts, {
   loader as myPostsLoader,
   action as myPostsAction,
 } from "./pages/profile/MyPosts";
+import Policy from "./pages/Policy";
+import Page404 from "./pages/Page404";
+import ProtectedRoute from "./components/ProtectedRoute";
+import RedirectIfLoggedIn from "./components/RedirectIfLoggedIn";
+import Layout from "./components/Layout";
+import { logout, user } from "./models/userModel";
 import useGetToken from "./hooks/useGetToken";
 
 const App = () => {
@@ -204,8 +206,13 @@ const App = () => {
           errorElement: <ErrorPage />,
         },
         {
-          path: "*",
-          errorElement: <h1>Error 404</h1>,
+          path: "/policy",
+          element: <Policy />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/*",
+          element: <Page404 />,
         },
       ],
     },

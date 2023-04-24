@@ -49,7 +49,12 @@ const FavoritePosts = () => {
         </div>
       ) : posts?.length > 0 ? (
         <div className="min-h-75vh">
-          <Gallery images={posts} reload={handleReload} />
+          <div className="w-full mb-6">
+            <h1 className="text-4xl text-white font-bold">
+              Mis publicaciones favoritas
+            </h1>
+          </div>
+          <Gallery images={posts} reload={handleReload} isDownloadable={true} />
         </div>
       ) : (
         <div className="p-8 h-75vh">
@@ -58,7 +63,7 @@ const FavoritePosts = () => {
               Al parecer aun no tienes publicaciones favoritas
             </h2>
             <Link
-              className="mt-12 py-3 px-4 text-xl rounded-lg bg-white text-blue-800 hover:bg-blue-800 hover:text-white transition-colors duration-300 shadow-xl"
+              className="mt-12 py-3 px-4 text-xl font-semibold rounded-lg bg-white text-blue-800 hover:bg-blue-800 hover:text-white transition-colors duration-300 shadow-xl"
               to="/"
             >
               Ir a Inicio

@@ -3,7 +3,7 @@ import { initials } from "../helpers/helpers.js";
 import { useState } from "react";
 
 const ProfilePicture = ({ photoProfile, name = "" }) => {
-  const [image, setImage] = useState(photoProfile || null);
+  const [image, setImage] = useState(photoProfile);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];

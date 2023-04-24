@@ -9,7 +9,7 @@ import {
 import { Label, Alert } from "flowbite-react";
 import { register } from "../models/userModel";
 import { HiCheckCircle, HiXCircle } from "react-icons/hi";
-import { isEmail, isPassword } from "../helpers/helpers";
+import { isEmail } from "../helpers/helpers";
 
 export async function action({ request }) {
   const formData = await request.formData(),
@@ -35,7 +35,7 @@ export async function action({ request }) {
     return errors;
   }
 
-  if (!isPassword(data.password)) {
+  if (data.password.length < 8) {
     errors.push({
       isError: true,
       type: "failure",
@@ -94,6 +94,8 @@ const Register = () => {
   useEffect(() => {
     if (errors) {
       setShow(true);
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
 
       setTimeout(() => {
         if (!errors[0].isError) {
@@ -159,6 +161,21 @@ const Register = () => {
                   id="name"
                   name="name"
                   placeholder="Juan Martinez"
+                  required
+                />
+              </div>
+              <div className="mt-4">
+                <Label
+                  htmlFor="birthday"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  value="Fecha de nacimiento"
+                />
+                <input
+                  className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+                  type="date"
+                  id="birthday"
+                  name="birthday"
+                  placeholder="dd/mm/aaaa"
                   required
                 />
               </div>

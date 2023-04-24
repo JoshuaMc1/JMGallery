@@ -62,6 +62,8 @@ const ForgotPassword = () => {
     if (errors) {
       setShow(true);
 
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
       setTimeout(() => {
         if (!errors[0].isError) {
           setShow(false);

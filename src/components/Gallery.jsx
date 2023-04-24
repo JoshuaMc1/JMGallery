@@ -6,7 +6,7 @@ import { Alert } from "flowbite-react";
 
 const GalleryImage = lazy(() => import("./GalleryImage"));
 
-const Gallery = ({ images, reload }) => {
+function Gallery({ images, reload, isDownloadable }) {
   const [columns, setColumns] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -19,7 +19,7 @@ const Gallery = ({ images, reload }) => {
 
   useEffect(() => {
     if (images && images.length > 0) {
-      const numColumns = images.length < 6 ? images.length : 6;
+      const numColumns = Math.min(images.length, 6);
       const colArray = new Array(numColumns).fill().map(() => []);
 
       images.forEach((image, index) => {
@@ -35,7 +35,16 @@ const Gallery = ({ images, reload }) => {
     if (message.length > 0) {
       setShow(true);
     }
+
+    setTimeout(() => {
+      setShow(false);
+    }, 2500);
   }, [message]);
+
+  const handleDismiss = () => {
+    setSelectedImage(null);
+    setMessage("");
+  };
 
   return (
     <>
@@ -44,16 +53,13 @@ const Gallery = ({ images, reload }) => {
           <Alert
             icon={HiCheckCircle}
             color={"success"}
-            onDismiss={() => {
-              setShow(false);
-              setMessage("");
-            }}
+            onDismiss={handleDismiss}
           >
             <span title="Notificación">{message}</span>
           </Alert>
         </div>
       )}
-      <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2">
         {columns.map((col, index) => (
           <div className="grid gap-2" key={index}>
             <Suspense fallback={<Spinner text="Cargando imagen..." />}>
@@ -63,6 +69,7 @@ const Gallery = ({ images, reload }) => {
                   image={image}
                   setShowModal={setShowModal}
                   onImageClick={handleImageClick}
+                  isDownloadable={isDownloadable}
                 />
               ))}
             </Suspense>
@@ -79,6 +86,6 @@ const Gallery = ({ images, reload }) => {
       </div>
     </>
   );
-};
+}
 
 export default Gallery;

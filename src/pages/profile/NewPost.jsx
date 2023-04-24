@@ -1,11 +1,12 @@
-import { Form, useActionData, useLoaderData } from "react-router-dom";
-import { Label, Alert } from "flowbite-react";
-import { create, update, getPost } from "../../models/postsModel";
 import { useState, useEffect } from "react";
-import { HiCheckCircle, HiXCircle } from "react-icons/hi";
+import { Form, useActionData, useLoaderData } from "react-router-dom";
 import Switch from "../../components/Switch";
 import ImageUploader from "../../components/ImageUploader";
+import { Label, Alert } from "flowbite-react";
+import { HiCheckCircle, HiXCircle } from "react-icons/hi";
 import useGetToken from "../../hooks/useGetToken";
+import { create, update, getPost } from "../../models/postsModel";
+import { formatDate } from "../../helpers/helpers";
 
 export async function loader({ params }) {
   const { slug } = params;
@@ -24,7 +25,7 @@ export async function loader({ params }) {
     }
   }
 
-  return {};
+  return null;
 }
 
 export async function action({ request }) {
@@ -157,6 +158,8 @@ const NewPost = () => {
     if (errors) {
       setShow(true);
 
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
       setTimeout(() => {
         if (!errors[0].isError) {
           setShow(false);
@@ -192,10 +195,10 @@ const NewPost = () => {
           <input
             type="hidden"
             name="_action"
-            defaultValue={load ? "edit" : "create"}
+            defaultValue={load != null ? "edit" : "create"}
           />
 
-          {load && (
+          {load != null && (
             <input type="hidden" name="slug" defaultValue={load?.slug} />
           )}
           <div className="w-full md:w-2/3">
@@ -251,11 +254,43 @@ const NewPost = () => {
                 <option value="2">Borrador</option>
               </select>
             </div>
+            {load != null && (
+              <>
+                <div className="mb-4">
+                  <Label
+                    htmlFor="created"
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                    value="Fecha de creación"
+                  />
+                  <input
+                    className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+                    type="text"
+                    id="created"
+                    readOnly
+                    defaultValue={formatDate(load?.created_at)}
+                  />
+                </div>
+                <div className="mb-4">
+                  <Label
+                    htmlFor="updated"
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                    value="Ultima modificación"
+                  />
+                  <input
+                    className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+                    type="text"
+                    id="updated"
+                    defaultValue={formatDate(load?.updated_at)}
+                    readOnly
+                  />
+                </div>
+              </>
+            )}
             <div className="mt-4">
               <input
                 type="submit"
                 className="bg-berkeley-blue text-white font-bold py-2 px-4 w-full cursor-pointer rounded hover:bg-blue-800 transition-colors ease-in-out duration-300"
-                value={`${load ? "Editar post" : "Publicar post"}`}
+                value={`${load != null ? "Editar post" : "Publicar post"}`}
               />
             </div>
           </div>

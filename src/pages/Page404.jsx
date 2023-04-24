@@ -1,20 +1,15 @@
-import { useRouteError, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const ErrorPage = () => {
-  const error = useRouteError();
-
+const Page404 = () => {
   return (
     <div className="grid h-75vh place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8 rounded-lg shadow-lg">
       <div className="text-center">
+        <p className="text-base font-semibold text-indigo-600">404</p>
         <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-          ¡Vaya!
+          ¡Ups!
         </h1>
         <p className="mt-6 text-base leading-7 text-gray-600">
-          Lo sentimos, al parecer a ocurrido un error. Vuelve a intentarlo mas
-          tarde.
-        </p>
-        <p className="mt-6 text-base leading-7 text-gray-600">
-          {error.statusText || error.message}
+          Lo sentimos, la página que buscas no se encuentra disponible.
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <Link
@@ -29,4 +24,4 @@ const ErrorPage = () => {
   );
 };
 
-export default ErrorPage;
+export default Page404;
