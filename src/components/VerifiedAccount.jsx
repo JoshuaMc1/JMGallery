@@ -1,7 +1,7 @@
 import { Alert } from "flowbite-react";
 import { AiFillWarning } from "react-icons/ai";
 
-const AccountVerified = ({ isLogged = false, verified = 1, email = "" }) => {
+const VerifiedAccount = ({ isLogged = false, verified = 1, email = "" }) => {
   if (!isLogged || verified) return null;
 
   return (
@@ -20,4 +20,4 @@ const AccountVerified = ({ isLogged = false, verified = 1, email = "" }) => {
   );
 };
 
-export default AccountVerified;
+export default VerifiedAccount;

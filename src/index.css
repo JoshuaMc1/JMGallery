@@ -23,7 +23,7 @@
 }
 
 .h-login {
-  height: 35rem;
+  min-height: 35rem;
 }
 
 .blur-effect {

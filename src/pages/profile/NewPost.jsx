@@ -154,8 +154,6 @@ const NewPost = () => {
   const [show, setShow] = useState(false);
   const load = useLoaderData();
 
-  console.log(load);
-
   useEffect(() => {
     if (errors) {
       setShow(true);

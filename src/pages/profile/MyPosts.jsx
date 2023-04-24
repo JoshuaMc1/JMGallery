@@ -2,10 +2,11 @@ import { Link, useLoaderData, Form, useActionData } from "react-router-dom";
 import { deletePost, getMyPosts } from "../../models/postsModel";
 import { Badge, Alert, Button } from "flowbite-react";
 import useGetToken from "../../hooks/useGetToken";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { HiCheckCircle, HiXCircle } from "react-icons/hi";
 import { MdPublic, MdPublicOff } from "react-icons/md";
 import { BsFillExclamationDiamondFill } from "react-icons/bs";
+import Confirm from "../../components/Confirm";
 
 export async function action({ request }) {
   const formData = await request.formData(),
@@ -78,6 +79,10 @@ const MyPosts = () => {
   const token = useGetToken();
   const errors = useActionData();
   const [show, setShow] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [deletePost, setDeletePost] = useState(false);
+  const buttonDeleteRefs = useRef([]);
+  const [postIndex, setPostIndex] = useState(null);
 
   useEffect(() => {
     if (errors) {
@@ -92,6 +97,14 @@ const MyPosts = () => {
       }, 2500);
     }
   }, [errors]);
+
+  useEffect(() => {
+    if (deletePost) {
+      buttonDeleteRefs.current[postIndex].click();
+      setPostIndex(null);
+      setDeletePost(false);
+    }
+  }, [deletePost]);
 
   return (
     <>
@@ -112,7 +125,7 @@ const MyPosts = () => {
             <h1 className="text-4xl text-white font-bold">Mis publicaciones</h1>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2">
-            {posts?.map(({ title, image, slug, status, id, nsfw }) => (
+            {posts?.map(({ title, image, slug, status, id, nsfw }, index) => (
               <div key={id} className="relative group h-full">
                 <div className="absolute top-0 left-0 p-2 flex gap-3">
                   <Badge color={status === 1 ? "success" : "indigo"}>
@@ -168,9 +181,18 @@ const MyPosts = () => {
                       <input type="hidden" name="slug" defaultValue={slug} />
                       <input type="hidden" name="_token" defaultValue={token} />
                       <input
-                        className="py-2 px-3 w-full h-full text-center rounded-md text-white bg-transparent hover:bg-red-800 cursor-pointer transition-colors duration-300"
+                        value=""
                         type="submit"
+                        ref={(el) => (buttonDeleteRefs.current[index] = el)}
+                      />
+                      <input
+                        className="py-2 px-3 w-full h-full text-center rounded-md text-white bg-transparent hover:bg-red-800 cursor-pointer transition-colors duration-300"
+                        type="button"
                         value="Eliminar"
+                        onClick={() => {
+                          setPostIndex(index);
+                          setShowConfirm(true);
+                        }}
                       />
                     </Form>
                   </div>
@@ -198,6 +220,14 @@ const MyPosts = () => {
           </div>
         </div>
       )}
+      <Confirm
+        setShowConfirm={setShowConfirm}
+        showConfirm={showConfirm}
+        setDeletePost={setDeletePost}
+        message="¿Estás seguro de que quieres eliminar esta publicación?"
+        optionYes="Si, deseo eliminar el post"
+        optionNo="No, no quiero eliminar el post"
+      />
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { useOutletContext, Form, useActionData } from "react-router-dom";
-import { memo, useState, useEffect } from "react";
+import { memo, useState, useEffect, useRef } from "react";
 import { Label, Alert } from "flowbite-react";
 import ProfilePicture from "../../components/ProfilePicture";
 import Switch from "../../components/Switch";
@@ -11,6 +11,7 @@ import {
   changeNSFW,
   deleteUser,
 } from "../../models/profileModel";
+import Confirm from "../../components/Confirm";
 
 export async function action({ request }) {
   let formData,
@@ -235,6 +236,9 @@ const Profile = memo(() => {
   const { userData, setLoad } = useOutletContext() || {};
   const [show, setShow] = useState(false);
   const token = useGetToken();
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [deleteUser, setDeleteUser] = useState(false);
+  const buttonDeleteRef = useRef();
 
   useEffect(() => {
     if (errors) {
@@ -250,6 +254,13 @@ const Profile = memo(() => {
       }, 2500);
     }
   }, [errors]);
+
+  useEffect(() => {
+    if (deleteUser) {
+      buttonDeleteRef.current.click();
+      setDeleteUser(false);
+    }
+  }, [deleteUser]);
 
   return (
     <>
@@ -302,6 +313,20 @@ const Profile = memo(() => {
                       id="name"
                       className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                       defaultValue={userData?.profile?.name}
+                    />
+                  </div>
+                  <div>
+                    <Label
+                      htmlFor="birthday"
+                      className="block text-gray-700 text-sm font-bold mb-2"
+                      value="Fecha de nacimiento"
+                    />
+                    <input
+                      type="date"
+                      id="birthday"
+                      className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+                      defaultValue={userData?.profile?.birthday}
+                      readOnly
                     />
                   </div>
                   <div>
@@ -464,16 +489,30 @@ const Profile = memo(() => {
               <input type="hidden" name="_token" defaultValue={token} />
               <div className="mb-3">
                 <input
-                  className="bg-red-800 text-white font-bold py-2 px-4 w-full cursor-pointer rounded hover:bg-red-600 transition-colors ease-in-out duration-300"
                   type="submit"
-                  value="Eliminar cuenta"
+                  value=""
                   name="form-delete"
+                  ref={buttonDeleteRef}
+                />
+                <input
+                  className="bg-red-800 text-white font-bold py-2 px-4 w-full cursor-pointer rounded hover:bg-red-600 transition-colors ease-in-out duration-300"
+                  type="button"
+                  value="Eliminar cuenta"
+                  onClick={() => setShowConfirm(true)}
                 />
               </div>
             </Form>
           </div>
         </div>
       </div>
+      <Confirm
+        setShowConfirm={setShowConfirm}
+        showConfirm={showConfirm}
+        setDeletePost={setDeleteUser}
+        message="¿Estás seguro de que deseas eliminar tu cuenta?"
+        optionYes="Si, deseo eliminar mi cuenta"
+        optionNo="No, no quiero eliminar mi cuenta"
+      />
     </>
   );
 });
