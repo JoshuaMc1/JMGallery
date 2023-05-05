@@ -59,7 +59,7 @@ const GalleryPage = () => {
         </div>
       ) : (
         <div className="p-8 h-75vh">
-          <div className="bg-yale-blue flex flex-col mx-auto h-full justify-center align-center items-center rounded-xl shadow-xl">
+          <div className="bg-yale-blue text-center flex flex-col mx-auto h-full justify-center align-center items-center rounded-xl shadow-xl">
             <h2 className="text-4xl font-bold text-white mb-4">
               Al parecer aun no hay imágenes
             </h2>
